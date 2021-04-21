@@ -1,5 +1,9 @@
 #include<iostream>
 #include<vector>
+#include<string>
+#include<queue>
+#include<stack>
+#include "../inc/TemplateClass.h"
 using namespace std;
 
 class Account{
@@ -92,8 +96,21 @@ Date operator+(Date obj1, Date obj2){
     return Date(totda,totmo,totyr);
 }
 
+//template function with its type of parameter
+template<typename T>
+void printAll(T &arr){
+    for(auto elem: arr){
+        cout << elem << " ";
+    }
+    cout << endl;
+}
+/*void printAll(int *arr,int len){
+    for(int i = 0; i < len; i++){
+        cout << arr[i] << " ";
+    }
 
-
+    cout << endl;
+}*/
 
 int main(){
     CheckingAccount check(100);
@@ -134,4 +151,60 @@ int main(){
     d1 == d2 ? std::cout <<"True" << std::endl : std::cout << "Flase" << std::endl; 
     d4 = d1;
     std::cout << "da: " << d4.da << " mo: " << d4.mo << " yr: " << d4.yr << endl;
+
+    //tempalte
+    //The first one is to set the "T" variable to "int" variable
+    //The second one is to set the "T" varible to "string" variable
+    TemplateClass<int> intStack;
+    TemplateClass<string> stringStack;
+
+    // manipulate int stack 
+    intStack.push(7); 
+    cout << intStack.top() <<endl; 
+
+    // manipulate string stack 
+    stringStack.push("hello"); 
+    cout << stringStack.top() << std::endl; 
+    stringStack.pop();
+
+    //template of function, typename is the type that you can decide by your self
+    //even
+    int arr1[] = {2,3};
+    int arr2[] = {4,5,6};
+    string arr3[] = {"Matt","Jack","John"};
+
+    printAll(arr1);
+    printAll(arr2);
+    printAll(arr3);
+      
+    //queue
+    queue<int> myqueue;
+    int myint;
+    cout << "Please enter some integers (enter 0 to end):\n";
+    do{
+        cin >> myint;
+        myqueue.push(myint);
+    }while(myint);
+    cout << "myqueue contains: ";
+    
+    while(!myqueue.empty()){
+        cout << ' ' << myqueue.front();
+        myqueue.pop();
+    }
+
+    cout << endl;
+    //stack
+    stack<int> mystack;
+    cout << "Please enter some integers (enter 0 to end):\n";
+    do{
+        cin >> myint;
+        mystack.push(myint);
+    }while(myint);
+    cout << "mystack contains: ";
+    while(!mystack.empty()){
+        cout << " " << mystack.top();
+        mystack.pop();
+    }
+    cout << endl;
+    
 }
