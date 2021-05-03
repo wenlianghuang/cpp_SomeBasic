@@ -3,6 +3,8 @@
 #include<string>
 #include<queue>
 #include<stack>
+#include<iterator>
+#include<list>
 #include "../inc/TemplateClass.h"
 using namespace std;
 
@@ -206,5 +208,44 @@ int main(){
         mystack.pop();
     }
     cout << endl;
+
+    //Iterator
+    list<int> mylist;
+    for(int i = 0; i < 10; i++) mylist.push_back(i*10);
+    cout << "The last element is: " << *prev(mylist.end()) << endl;
     
+    int foo[] = {10,20,30,40,50};
+    std::vector<int> bar;
+
+    for(auto it = begin(foo); it != end(foo); ++it) bar.push_back(*it);
+    cout << "bar contains: ";
+    for(auto it = begin(bar); it != end(bar); ++it)
+        cout << " " << *it;
+    cout << endl;
+
+    //LIONBRIDGE Quiz 6
+    string strL = "abcabc";
+    vector<int> nonrepeat;
+    bool isrepeat = false;
+    for(int i = 0; i < strL.length();i++){
+        for(int j = 0; j < strL.length();j++){
+            if(i == j) continue;
+            if(strL[i] == strL[j]){
+                isrepeat = true;
+                break;
+            }
+        }
+        if(!isrepeat){
+            nonrepeat.push_back(i);
+        }
+        isrepeat = false;
+    }
+    if(nonrepeat.empty()){
+        cout << "All the characters in string are the same" << endl;
+    }
+    else if(nonrepeat.size() == strL.length()){
+        cout << "There is No repeat" << endl;
+    }else{
+        cout << "The first non-repeat element is: " << nonrepeat[0] << endl;
+    }
 }
