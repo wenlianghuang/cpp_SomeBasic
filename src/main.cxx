@@ -5,7 +5,10 @@
 #include<stack>
 #include<iterator>
 #include<list>
+#include<math.h>
 #include "../inc/TemplateClass.h"
+#include<set>
+#include<unordered_map>
 using namespace std;
 
 class Account{
@@ -98,21 +101,27 @@ Date operator+(Date obj1, Date obj2){
     return Date(totda,totmo,totyr);
 }
 
+//define the operaotor - method function outside the class
+Date operator-(Date obj1,Date obj2){
+    int totda = obj1.da - obj2.da;
+    int totmo = obj1.mo - obj2.mo;
+    int totyr = obj1.yr - obj2.yr;
+
+    return Date(totda,totmo,totyr);
+}
+//define the operator * method function outsiide the class
+
+//define the operaotr
 //template function with its type of parameter
 template<typename T>
-void printAll(T &arr){
+void printTemplate(T &arr){
     for(auto elem: arr){
         cout << elem << " ";
     }
     cout << endl;
 }
-/*void printAll(int *arr,int len){
-    for(int i = 0; i < len; i++){
-        cout << arr[i] << " ";
-    }
 
-    cout << endl;
-}*/
+
 
 int main(){
     CheckingAccount check(100);
@@ -135,9 +144,12 @@ int main(){
     int x = 0;
     int *y;
     y = &x;
-    pointertest(y);
+    //The pointer in parameters is acctually "copy", the pointer is different in the
+    //function region or not.
+    pointertest(y);//pointer reference in "pointertest" region
     std::cout << "Pointer value: " << *y << std::endl;
-    std::cout << "Pointer reference: " << y << std::endl;
+    std::cout << "Pointer reference: " << y << std::endl; //pointer reference in global region
+    
 
     
     //Something about the overloading operator
@@ -175,9 +187,9 @@ int main(){
     int arr2[] = {4,5,6};
     string arr3[] = {"Matt","Jack","John"};
 
-    printAll(arr1);
-    printAll(arr2);
-    printAll(arr3);
+    printTemplate(arr1);
+    printTemplate(arr2);
+    printTemplate(arr3);
       
     //queue
     queue<int> myqueue;
@@ -217,35 +229,60 @@ int main(){
     int foo[] = {10,20,30,40,50};
     std::vector<int> bar;
 
+    //auto variable
     for(auto it = begin(foo); it != end(foo); ++it) bar.push_back(*it);
     cout << "bar contains: ";
     for(auto it = begin(bar); it != end(bar); ++it)
         cout << " " << *it;
     cout << endl;
 
-    //LIONBRIDGE Quiz 6
-    string strL = "abcabc";
-    vector<int> nonrepeat;
-    bool isrepeat = false;
-    for(int i = 0; i < strL.length();i++){
-        for(int j = 0; j < strL.length();j++){
-            if(i == j) continue;
-            if(strL[i] == strL[j]){
-                isrepeat = true;
-                break;
-            }
-        }
-        if(!isrepeat){
-            nonrepeat.push_back(i);
-        }
-        isrepeat = false;
+
+    //get the whole vector at once in the for loop
+    vector<int> vec;
+    vec.push_back(10);
+    vec.push_back(20);
+    for(int &i : vec){
+        i++;
     }
-    if(nonrepeat.empty()){
-        cout << "All the characters in string are the same" << endl;
+
+    for(int i : vec){
+        cout << i << endl;
     }
-    else if(nonrepeat.size() == strL.length()){
-        cout << "There is No repeat" << endl;
-    }else{
-        cout << "The first non-repeat element is: " << nonrepeat[0] << endl;
+
+
+    //c++ set, the differences of set and vector are:
+    //1.唯一性 2.不可修改性 3.順序性 ref: https://shengyu7697.github.io/std-set/ 
+    set<int> myset;
+    set<int>::iterator itset;
+    pair<set<int>::iterator,bool> ret;
+
+    for(int i = 1; i <= 5; ++i){
+        myset.insert(i*10);
+    }
+    ret = myset.insert(20);
+
+    if(ret.second == false) itset = ret.first;
+
+    myset.insert(itset,24);
+    myset.insert(itset,25);
+    myset.insert(itset,26);
+
+    int myints [] = {5,10,15};
+    myset.insert(myints,myints+3);
+    cout << "myset containers: ";
+    for(itset = myset.begin();itset != myset.end(); ++itset)
+        cout << " " << *itset;
+    cout<< endl;
+
+    //unordered_map::bucket
+    unordered_map<string,string> mymap = {
+        {"us","United State"},
+        {"uk","Uniked Kingdon"},
+        {"fr","France"},
+        {"de","Germeny"}
+    };
+    for(auto &x: mymap){
+        cout << "Element [" << x.first << ":" << x.second << "]";
+        cout << " is in bucket # " << mymap.bucket(x.first) << endl;
     }
 }
